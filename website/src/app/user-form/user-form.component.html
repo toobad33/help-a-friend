@@ -1,0 +1,24 @@
+<!-- <form>
+    <div class="form-group"> 
+		<label for="text_msg" class="control-label">Enter the text</label>
+		<input type="text" class="form-control" id="text_msg" name="text_msg" placeholder="Hey friend, long time no see!">
+    </div>
+    
+    <div class="form-group"> 
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+</form> -->
+
+
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+
+    <div>
+        <label for="text_msg">
+          Enter your text messages!
+        </label>
+        <input id="text_msg" type="text" formControlName="text_msg">
+      </div>
+
+    <button class="button" type="submit">Submit</button>
+  
+  </form>
