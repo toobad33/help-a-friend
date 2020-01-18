@@ -1,6 +1,8 @@
 const app = require('express')();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
-async function quickstart() {
+async function quickstartNLP(message) {
     // Imports the Google Cloud client library
     const language = require('@google-cloud/language');
   
@@ -8,7 +10,7 @@ async function quickstart() {
     const client = new language.LanguageServiceClient();
   
     // The text to analyze
-    const text = "J'ai tellement envi de me suicider, c'est pas croyable.";
+    const text = message;
   
     const document = {
       content: text,
@@ -24,13 +26,36 @@ async function quickstart() {
     console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
   }
   
-quickstart();
+quickstartNLP("J'ai envi de me suicider");
 
 app.get("/", (req, res) => {
-    res.send("give me a form baby");
+    res.sendFile(__dirname + '/index.html');
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, function(){
+io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' }); // This will emit the event to all connected sockets
+
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+
+    // socket.on('chat message', (msg) => {
+    //     console.log('message: '  + msg);
+    //     quickstartNLP(msg);
+    // });
+
+    io.on('connection', function(socket){
+        socket.on('chat message', function(msg){
+            console.log('message: ' + msg);
+            quickstartNLP(msg);
+            io.emit('chat message', msg);
+          });        
+    });      
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+});
+
+http.listen(3000, function(){
     console.log("Online");
 })
