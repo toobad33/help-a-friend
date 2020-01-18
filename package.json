@@ -1,0 +1,29 @@
+{
+  "name": "help-a-friend",
+  "version": "1.0.0",
+  "description": "A Natural Language Processor that analyzes the sentiment of chat messages and alerts for noticeable and self-destructive behavior may be overwhelming for the reader. ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toobad33/help-a-friend.git"
+  },
+  "keywords": [
+    "NLP",
+    "Chat"
+  ],
+  "author": "Agnes Sam, Nhien Ton, Jefferson Lam, Charles Jiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toobad33/help-a-friend/issues"
+  },
+  "homepage": "https://github.com/toobad33/help-a-friend#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "request": "^2.88.0"
+  }
+}
