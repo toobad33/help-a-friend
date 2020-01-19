@@ -2,17 +2,67 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
 
     <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font: 13px Helvetica, Arial; background-color: #F8F8F8; }
-form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-#messages { list-style-type: none; margin: 0; padding: 0; }
-#messages li { padding: 5px 10px; }
-#messages li:nth-child(odd) { background: #eee; }
-header { text-align: left; padding: 5px; background-color:black; color:white;}
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; background-color: #F8F8F8;}
+      /* background-image: url("https://img.freepik.com/free-photo/white-marble-texture-background-abstract-marble-texture-natural-patterns-design_41389-323.jpg?size=626&ext=jpg"); opacity: 0.9; */
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { border: 2px solid #dedede;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px; 
+        /*margin: 20px 120px 15px 300px; */
+        margin-top: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 1px 0 rgba(10, 10, 10, 0.11), 0 5px 5px 0 rgba(0, 0, 0, 0.137);
+        /* float: left; */ 
+        display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+      }
+      #messages li:nth-child(odd) { border-color: #ccc;
+        background-color: #ddd;
+        /* float: right; */
+       }
+
+      .text-box li:nth-child(odd) {
+        clear:left;
+      }
+      header { text-align: left; padding-top: 5px; padding-bottom: 5px; padding-left: 25px; 
+        background-color:black; color:white; font-family: 'Varela Round', sans-serif;
+        border-radius: 1px; box-shadow: 5px 5px dimgray;}
+      .text-box {
+        float:left;
+      } 
+      .users-online {
+        float: left;
+        background-color:	#E8E8E8;
+        border-radius: 10px;
+        margin-top: 20px;
+        margin-left: 20px;
+        box-shadow: 0 1px 1px 0 rgba(10, 10, 10, 0.11), 0 5px 5px 0 rgba(0, 0, 0, 0.137);
+      }
+      .col1 .col2 {
+        float :left;
+        width: 10%;
+      }
+
+      .col1 {
+        padding : 40px;
+        height: 500px;
+      }
+      li {
+        list-style-type: none;
+      }
     </style>
   </head>
   <body>
@@ -20,9 +70,18 @@ header { text-align: left; padding: 5px; background-color:black; color:white;}
       <h3>Chat</h3>
     </header>
 
-    <div class = "text-box"></div>
+    <div class = "users-online col1">
+      <ul>
+        <li>Usager 1</li>
+        <li>Usager 2</li>
+      </ul>
+    </div>
+    
 
-    <ul id="messages"></ul>
+    <div class = "text-box col2">
+      <ul id="messages" class = "test"></ul>
+    </div>
+
 
 
     <form action="">
