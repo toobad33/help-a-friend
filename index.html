@@ -97,18 +97,14 @@
 
     <div class="container">
       <!-- <div class = "users-online col1"> -->
-      <div class="users-online col1">
-        <ul>
-          <li>Usager 1</li>
-          <li>Usager 2</li>
-        </ul>
-      </div>
+      <div class="users-online col1"></div>
       <div style="padding-left: 200px;">
         <div class = "col-12 col-md-8 text-box">
           <ul id="messages">
           </ul>
         </div>    
       </div>
+
     </div>
     
     <div class = "text-box col2">
@@ -127,6 +123,9 @@
       $(function () {
         const socket = io('http://localhost:3000');
         const name = prompt("What is your name?");
+        document.querySelector(".users-online").innerHTML += "<ul> <li>";
+        document.querySelector(".users-online").innerHTML += name;
+        document.querySelector(".users-online").innerHTML += "</li> </ul>";
         socket.emit('new-user', name);
         $('form').submit(function(e){
           e.preventDefault(); // prevents page reloading
@@ -141,6 +140,7 @@
         });
         socket.on('user-connected', name => {
           $('#messages').append($('<li>').text(name + " just connected."));
+          $('.users-online').append($('<ul><li>').text(name));
         })
       });
     </script>
