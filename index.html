@@ -6,31 +6,33 @@
       rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; background-color: #F8F8F8; }
+      body { font: 9px; font-family: 'Varela Round'; background-color: rgb(199, 199, 199); }
       form 
-      { background: #E8E8E8; 
+      {  
         padding: 3px; 
         position: fixed; 
-        bottom: 0; 
-        width: 60%;
-        border-radius: 4px;
-        margin-left: 300px;
-        margin-right: 120px;}
+        bottom:50px; 
+        width: 60%; 
+        border-radius: 2px;
+        margin-left: 290px; 
+        margin-right: 120px; 
+      }
       form input 
-      { border: 0; 
+      {  
+        background-color: #ffffff;
+        width: 80%;
         padding: 10px; 
-        width: 90%;
-        margin: 0px 0px 9px 7px;}
+        margin: 0px 7px 9px 7px;}
       /* .material-icons.md-36 { font-size: 36px;  } */
-      form button { width: 9%; background-color: transparent; border: 0; padding-top: 5px;}
-      form button:hover { cursor: pointer; 
-        box-shadow: 0 9px 9px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
+      form button { width: 5%; background-color: transparent; border: 0; padding-top: 5px;}
+      form button:hover { cursor: pointer; }
       #messages { list-style-type: none; margin: 0; padding: 0; font-family: 'Varela Round'; }
-      #messages li { border: 2px solid #dedede;
+      #messages li { 
         background-color: #f1f1f1;
-        border-radius: 5px;
+        border-radius: 2px;
         padding-top: 10px;
         padding-bottom: 10px;
         padding-left: 10px;
@@ -45,26 +47,18 @@
             height: 100%;
             width: 100%;
       }
-      #messages li:nth-child(odd) { border-color: #ccc;
-        background-color: #ddd;
-        /* float: right; */
-       }
-      /* .text-box li:nth-child(odd) {
-        clear:left;
-      } */
       header { text-align: left; padding-top: 5px; padding-bottom: 5px; padding-left: 25px; 
         background-color:black; color:white; font-family: 'Varela Round', sans-serif;
         border-radius: 1px; box-shadow: 5px 5px dimgray;}
-      .text-box {
-        
-      } 
       .users-online {
         float: left;
         position: fixed;
         background-color: #E8E8E8;
-        border-radius: 10px;
-        margin-top: 20px;
-        margin-left: 20px;
+        width: 150px;
+        height: 300px;
+        border-radius: 2px;
+        margin-top: 15px;
+        margin-left: 15px;
         box-shadow: 0 1px 1px 0 rgba(10, 10, 10, 0.11), 0 5px 5px 0 rgba(0, 0, 0, 0.137);
         font-family: 'Varela Round';
       }
@@ -78,7 +72,7 @@
       }
       .col1 {
         padding : 40px;
-        height: 500px;
+        height: 400px;
       }
       li {
         list-style-type: none;
@@ -91,28 +85,32 @@
     </style>
   </head>
   <body>
-    <header>
-      <h3>Chat</h3>
-    </header>
-
-    <div class="container">
-      <!-- <div class = "users-online col1"> -->
-      <div class="users-online col1"></div>
+    <nav class="navbar navbar-dark bg-dark">
+      <a class="navbar-brand" href="#"><i class="fas fa-comment-slash"></i>Chat</a>
+    </nav>
+    
+    <div class="container" style="padding-top: 25px;">
+      <div class="users-online col1">
+        <p><strong>Online Users</strong></p>
+        <hr>
+        
+      </div>
       <div style="padding-left: 200px;">
         <div class = "col-12 col-md-8 text-box">
+          <h2>Just chatting</h2>
           <ul id="messages">
           </ul>
         </div>    
       </div>
 
     </div>
-    
     <div class = "text-box col2">
       <ul id="messages" class = "test"></ul>
     </div>
     <form action="">
-      <input id="m" autocomplete="off" /><button class="material-icons md-36">send</button>
+      <input placeholder="Type a message..." id="m" autocomplete="off"><button><i class="fas fa-paper-plane"></i></button>
     </form>
+  
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -123,9 +121,9 @@
       $(function () {
         const socket = io('http://localhost:3000');
         const name = prompt("What is your name?");
-        document.querySelector(".users-online").innerHTML += "<ul> <li>";
-        document.querySelector(".users-online").innerHTML += name;
-        document.querySelector(".users-online").innerHTML += "</li> </ul>";
+        document.querySelector(".users-online").innerHTML += "<li> <strong>";
+        document.querySelector(".users-online").innerHTML += ("<i class='fas fa-user'></i> " + name);
+        document.querySelector(".users-online").innerHTML += "</strong> </li>";
         socket.emit('new-user', name);
         $('form').submit(function(e){
           e.preventDefault(); // prevents page reloading
@@ -140,7 +138,8 @@
         });
         socket.on('user-connected', name => {
           $('#messages').append($('<li>').text(name + " just connected."));
-          $('.users-online').append($('<ul><li>').text(name));
+          //$('.users-online').append($("<li><i class='fas fa-user'>").text(name));
+          document.querySelector(".users-online").innerHTML += ("<li><i class='fas fa-user'></i> " + name);
         })
       });
     </script>
