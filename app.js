@@ -12,9 +12,9 @@ let users = {};
 let good = true;
 
   
-async function sendAlert(){
-    alert('watch out!');
-}
+// async function sendAlert(){
+//     alert('watch out!');
+// }
 
 
 async function quickstartNLP(message) {
@@ -40,11 +40,11 @@ async function quickstartNLP(message) {
     let table = await [ sentiment.score, sentiment.magnitude];
     if (sentiment.score < 0) {
         good = false;
-        await sendAlert();
+        // await sendAlert();
     }  
-    else (
-        good = true
-    ) 
+    else {
+        good = true;
+    }
   }
   
 quickstartNLP("Je suis heureux");
@@ -64,17 +64,18 @@ io.on('connection', (socket) => {
     })
     connections.push(socket);
     console.log('Connected : %s sockets connected', connections.length);
+    
     socket.on('chat message', (msg) => {
         console.log('message: ' + msg);
         quickstartNLP(msg);
-    
+
         console.log(' true or false good before sending the msg is: ' + good);
-        if (!good){
-            console.log('do nothing');
-        }
-        else {
-            socket.broadcast.emit('chat message', {message: msg, name: users[socket.id]});
-        }
+        // if (!good){
+        //     console.log('do nothing');
+        // }
+        // else {
+        socket.broadcast.emit('chat message', {message: msg, name: users[socket.id]});
+        //}
     });        
     
     //Disconnect
@@ -87,3 +88,4 @@ io.on('connection', (socket) => {
 http.listen(3000, function(){
     console.log("Online");
 })
+
