@@ -117,7 +117,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
-      //console.log("IN THE HTML CONSOLE!")
+  
+      // let warning = "Woah there, are you sure you want to send that message?"
+      // user_choice = window.confirm(warning)
+      // if (user_choice){
+      //   //qqchose ici
+      //   let war= 2;
+      // }
+
+
       $(function () {
         const socket = io('http://localhost:3000');
         const name = prompt("What is your name?");
@@ -128,13 +136,34 @@
         $('form').submit(function(e){
           e.preventDefault(); // prevents page reloading
           socket.emit('chat message', $('#m').val());
-          $('#messages').append($('<li>').text("You: " + $('#m').val()))
-          $('#m').val('');
+          let str = $('#m').val();
+          if (str.includes("you") && (str.includes("hate") || str.includes("fuck") || str.includes("bitch") || str.includes("suck")) || str.includes("ass")) {
+            attendreConfirmation = true;
+            let warning = "Woah there, your message contains hurtful words. Are you sure you want to send that message?"
+            user_choice = window.confirm(warning);
+            if (user_choice){
+              $('#messages').append($('<li>').text("You: " + $('#m').val()))
+              $('#m').val('');
+              socket.emit('chat message', $('#m').val());
+            }
+            else {
+              $('#m').val('');
+            }
+          }
+          else {
+            $('#messages').append($('<li>').text("You: " + $('#m').val()))
+            $('#m').val('');
+          }
           return false;
         });
         socket.on('chat message', function(data){
-          console.log(data.name)
+          console.log(data.name);
+          let str = data.message;
           $('#messages').append($('<li>').text(`${data.name}: ${data.message}`));
+          if (str.includes("sad") || str.includes("die") || str.includes("kill") || str.includes("cut")) {
+          let warning = "You friend seems to be under a lot of stress. Be careful with what you say.";
+          user_choice = window.alert(warning);
+          }
         });
         socket.on('user-connected', name => {
           $('#messages').append($('<li>').text(name + " just connected."));

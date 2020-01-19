@@ -2,16 +2,25 @@ const app           = require('express')();
 const http          = require('http').createServer(app);
 const io            = require('socket.io')(http);
 
+const alert         = require('alert-node');
+// Imports the Google Cloud client library
+const language = require('@google-cloud/language');
+const Timeout       = require('await-timeout');
+
 let connections = [];
 let users = {};
+let good = true;
+
+  
+// async function sendAlert(){
+//     alert('watch out!');
+// }
+
 
 async function quickstartNLP(message) {
-    // Imports the Google Cloud client library
-    const language = require('@google-cloud/language');
-  
     // Instantiates a client
     const client = new language.LanguageServiceClient();
-  
+    
     // The text to analyze
     const text = message;
   
@@ -23,16 +32,22 @@ async function quickstartNLP(message) {
     // Detects the sentiment of the text
     const [result] = await client.analyzeSentiment({document: document});
     const sentiment = result.documentSentiment;
-  
-    //added
-    alertMsg(sentiment.score, sentiment.magnitude);
 
     console.log(`Text: ${text}`);
     console.log(`Sentiment score: ${sentiment.score}`);
     console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+
+    let table = await [ sentiment.score, sentiment.magnitude];
+    if (sentiment.score < 0) {
+        good = false;
+        // await sendAlert();
+    }  
+    else {
+        good = true;
+    }
   }
   
-quickstartNLP("J'ai envie de me suicider");
+quickstartNLP("Je suis heureux");
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + '/index.html');
@@ -49,10 +64,18 @@ io.on('connection', (socket) => {
     })
     connections.push(socket);
     console.log('Connected : %s sockets connected', connections.length);
+    
     socket.on('chat message', (msg) => {
         console.log('message: ' + msg);
         quickstartNLP(msg);
+
+        console.log(' true or false good before sending the msg is: ' + good);
+        // if (!good){
+        //     console.log('do nothing');
+        // }
+        // else {
         socket.broadcast.emit('chat message', {message: msg, name: users[socket.id]});
+        //}
     });        
     
     //Disconnect
@@ -65,3 +88,4 @@ io.on('connection', (socket) => {
 http.listen(3000, '0.0.0.0', function(){
     console.log("Online");
 })
+
