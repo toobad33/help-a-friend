@@ -5,17 +5,10 @@ const io            = require('socket.io')(http);
 const alert         = require('alert-node');
 // Imports the Google Cloud client library
 const language = require('@google-cloud/language');
-const Timeout       = require('await-timeout');
 
 let connections = [];
 let users = {};
 let good = true;
-
-  
-// async function sendAlert(){
-//     alert('watch out!');
-// }
-
 
 async function quickstartNLP(message) {
     // Instantiates a client
@@ -40,14 +33,11 @@ async function quickstartNLP(message) {
     let table = await [ sentiment.score, sentiment.magnitude];
     if (sentiment.score < 0) {
         good = false;
-        // await sendAlert();
     }  
     else {
         good = true;
     }
   }
-  
-quickstartNLP("Je suis heureux");
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + '/index.html');
@@ -63,29 +53,19 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('user-connected', name);
     })
     connections.push(socket);
-    console.log('Connected : %s sockets connected', connections.length);
     
     socket.on('chat message', (msg) => {
         console.log('message: ' + msg);
         quickstartNLP(msg);
-
-        console.log(' true or false good before sending the msg is: ' + good);
-        // if (!good){
-        //     console.log('do nothing');
-        // }
-        // else {
         socket.broadcast.emit('chat message', {message: msg, name: users[socket.id]});
-        //}
     });        
     
     //Disconnect
     socket.on('disconnect', () => {
         connections.splice(connections.indexOf(socket), 1);
-        console.log('Disconnected: %s sockets connected', connections.length);
     });
 });
 
 http.listen(3000, '0.0.0.0', function(){
     console.log("Online");
 })
-

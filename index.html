@@ -1,9 +1,8 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+    <title>Help-A-Friend</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
@@ -116,16 +115,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+
     <script>
-  
-      // let warning = "Woah there, are you sure you want to send that message?"
-      // user_choice = window.confirm(warning)
-      // if (user_choice){
-      //   //qqchose ici
-      //   let war= 2;
-      // }
 
-
+      function openPrevention() {
+        window.open("https://www.suicideinfo.ca/");
+      }
       $(function () {
         const socket = io('http://localhost:3000');
         const name = prompt("What is your name?");
@@ -138,11 +133,10 @@
           socket.emit('chat message', $('#m').val());
           let str = $('#m').val();
           if (str.includes("you") && (str.includes("hate") || str.includes("fuck") || str.includes("bitch") || str.includes("suck")) || str.includes("ass")) {
-            attendreConfirmation = true;
             let warning = "Woah there, your message contains hurtful words. Are you sure you want to send that message?"
             user_choice = window.confirm(warning);
             if (user_choice){
-              $('#messages').append($('<li>').text("You: " + $('#m').val()))
+              $('#messages').append($('<li>').text("You: " + $('#m').val()));
               $('#m').val('');
               socket.emit('chat message', $('#m').val());
             }
@@ -158,16 +152,18 @@
         });
         socket.on('chat message', function(data){
           console.log(data.name);
-          let str = data.message;
           $('#messages').append($('<li>').text(`${data.name}: ${data.message}`));
-          if (str.includes("sad") || str.includes("die") || str.includes("kill") || str.includes("cut")) {
-          let warning = "You friend seems to be under a lot of stress. Be careful with what you say.";
-          user_choice = window.alert(warning);
+          let str = data.message;
+          if (str.includes("sad") || str.includes("die") || str.includes("kill") || str.includes("cut") || str.includes("suicide")) {
+            let warning2 = "You friend seems to be under a lot of stress. Be careful with what you say. Do you want to learn more about it?";
+            user_choice2 = window.confirm(warning2); 
+            if (user_choice2) {
+              window.open('https://www.suicideinfo.ca/');        
+            }
           }
         });
         socket.on('user-connected', name => {
           $('#messages').append($('<li>').text(name + " just connected."));
-          //$('.users-online').append($("<li><i class='fas fa-user'>").text(name));
           document.querySelector(".users-online").innerHTML += ("<li><i class='fas fa-user'></i> " + name);
         })
       });
