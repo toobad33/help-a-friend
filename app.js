@@ -1,14 +1,9 @@
-const app = require('express')();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-const alert = require('alert-node')();
+const app           = require('express')();
+const http          = require('http').createServer(app);
+const io            = require('socket.io')(http);
 
-function alertMsg(score, magnitude) {
-    if (score < 0 && magnitude < 0) {
-        alert("Watch out! This message is depressing");
-    }
-}
-
+let connections = [];
+let users = {};
 
 async function quickstartNLP(message) {
     // Imports the Google Cloud client library
@@ -37,7 +32,7 @@ async function quickstartNLP(message) {
     console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
   }
   
-quickstartNLP("J'ai envi de me suicider");
+quickstartNLP("J'ai envie de me suicider");
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + '/index.html');
@@ -47,23 +42,23 @@ io.emit('some event', { someProperty: 'some value', otherProperty: 'other value'
 
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
-
-    // socket.on('chat message', (msg) => {
-    //     console.log('message: '  + msg);
-    //     quickstartNLP(msg);
-    // });
-
-    io.on('connection', function(socket){
-        socket.on('chat message', function(msg){
-            console.log('message: ' + msg);
-            quickstartNLP(msg);
-            io.emit('chat message', msg);
-          });        
-    });      
-
+    //Connections
+    socket.on('new-user', name => {
+        users[socket.id] = name;
+        socket.broadcast.emit('user-connected', name);
+    })
+    connections.push(socket);
+    console.log('Connected : %s sockets connected', connections.length);
+    socket.on('chat message', (msg) => {
+        console.log('message: ' + msg);
+        quickstartNLP(msg);
+        socket.broadcast.emit('chat message', {message: msg, name: users[socket.id]});
+    });        
+    
+    //Disconnect
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        connections.splice(connections.indexOf(socket), 1);
+        console.log('Disconnected: %s sockets connected', connections.length);
     });
 });
 

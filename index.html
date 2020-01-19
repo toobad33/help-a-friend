@@ -21,17 +21,25 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+      //console.log("IN THE HTML CONSOLE!")
       $(function () {
-        var socket = io();
+        const socket = io('http://localhost:3000');
+        const name = prompt("What is your name?");
+        socket.emit('new-user', name);
         $('form').submit(function(e){
           e.preventDefault(); // prevents page reloading
           socket.emit('chat message', $('#m').val());
+          $('#messages').append($('<li>').text("You: " + $('#m').val()))
           $('#m').val('');
           return false;
         });
-        socket.on('chat message', function(msg){
-          $('#messages').append($('<li>').text(msg));
+        socket.on('chat message', function(data){
+          console.log(data.name)
+          $('#messages').append($('<li>').text(`${data.name}: ${data.message}`));
         });
+        socket.on('user-connected', name => {
+          $('#messages').append($('<li>').text(name + " just connected."));
+        })
       });
     </script>
   </body>
