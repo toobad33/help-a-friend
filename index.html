@@ -5,6 +5,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; background-color: #F8F8F8; }
@@ -55,17 +56,21 @@
         background-color:black; color:white; font-family: 'Varela Round', sans-serif;
         border-radius: 1px; box-shadow: 5px 5px dimgray;}
       .text-box {
-        float:left;
+        
       } 
       .users-online {
         float: left;
-        /* position: fixed; */
+        position: fixed;
         background-color: #E8E8E8;
         border-radius: 10px;
         margin-top: 20px;
         margin-left: 20px;
         box-shadow: 0 1px 1px 0 rgba(10, 10, 10, 0.11), 0 5px 5px 0 rgba(0, 0, 0, 0.137);
         font-family: 'Varela Round';
+      }
+
+      .users-online::after {
+        clear:left;
       }
       .col1 .col2 {
         float :left;
@@ -90,18 +95,21 @@
       <h3>Chat</h3>
     </header>
 
-    <div class = "users-online col1">
-      <ul>
-        <li>Usager 1</li>
-        <li>Usager 2</li>
-      </ul>
+    <div class="container">
+      <!-- <div class = "users-online col1"> -->
+      <div class="users-online col1">
+        <ul>
+          <li>Usager 1</li>
+          <li>Usager 2</li>
+        </ul>
+      </div>
+      <div style="padding-left: 200px;">
+        <div class = "col-12 col-md-8 text-box">
+          <ul id="messages">
+          </ul>
+        </div>    
+      </div>
     </div>
-
-    <div class = "text-box">
-      <ul id="messages">
-      </ul>
-    </div>
-
     
     <div class = "text-box col2">
       <ul id="messages" class = "test"></ul>
@@ -111,6 +119,9 @@
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     <script>
       //console.log("IN THE HTML CONSOLE!")
       $(function () {
