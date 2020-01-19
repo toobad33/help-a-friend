@@ -1,6 +1,14 @@
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const alert = require('alert-node')();
+
+function alertMsg(score, magnitude) {
+    if (score < 0 && magnitude < 0) {
+        alert("Watch out! This message is depressing");
+    }
+}
+
 
 async function quickstartNLP(message) {
     // Imports the Google Cloud client library
@@ -21,6 +29,9 @@ async function quickstartNLP(message) {
     const [result] = await client.analyzeSentiment({document: document});
     const sentiment = result.documentSentiment;
   
+    //added
+    alertMsg(sentiment.score, sentiment.magnitude);
+
     console.log(`Text: ${text}`);
     console.log(`Sentiment score: ${sentiment.score}`);
     console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
