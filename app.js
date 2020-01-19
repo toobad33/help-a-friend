@@ -24,6 +24,9 @@ async function quickstartNLP(message) {
     const [result] = await client.analyzeSentiment({document: document});
     const sentiment = result.documentSentiment;
   
+    //added
+    alertMsg(sentiment.score, sentiment.magnitude);
+
     console.log(`Text: ${text}`);
     console.log(`Sentiment score: ${sentiment.score}`);
     console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
