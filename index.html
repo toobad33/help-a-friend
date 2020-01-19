@@ -2,16 +2,31 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
-
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; background-color: #F8F8F8;}
-      /* background-image: url("https://img.freepik.com/free-photo/white-marble-texture-background-abstract-marble-texture-natural-patterns-design_41389-323.jpg?size=626&ext=jpg"); opacity: 0.9; */
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
+      body { font: 13px Helvetica, Arial; background-color: #F8F8F8; }
+      form 
+      { background: #E8E8E8; 
+        padding: 3px; 
+        position: fixed; 
+        bottom: 0; 
+        width: 60%;
+        border-radius: 4px;
+        margin-left: 300px;
+        margin-right: 120px;}
+      form input 
+      { border: 0; 
+        padding: 10px; 
+        width: 90%;
+        margin: 0px 0px 9px 7px;}
+      .material-icons.md-36 { font-size: 36px; }
+      form button { width: 9%; background-color: transparent; border: 0; padding-top: 5px;}
+      form button:hover { cursor: pointer; 
+        box-shadow: 0 9px 9px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
+        #messages { list-style-type: none; margin: 0; padding: 0; font-family: 'Varela Round'; }
       #messages li { border: 2px solid #dedede;
         background-color: #f1f1f1;
         border-radius: 5px;
@@ -33,10 +48,9 @@
         background-color: #ddd;
         /* float: right; */
        }
-
-      .text-box li:nth-child(odd) {
+      /* .text-box li:nth-child(odd) {
         clear:left;
-      }
+      } */
       header { text-align: left; padding-top: 5px; padding-bottom: 5px; padding-left: 25px; 
         background-color:black; color:white; font-family: 'Varela Round', sans-serif;
         border-radius: 1px; box-shadow: 5px 5px dimgray;}
@@ -45,23 +59,29 @@
       } 
       .users-online {
         float: left;
-        background-color:	#E8E8E8;
+        /* position: fixed; */
+        background-color: #E8E8E8;
         border-radius: 10px;
         margin-top: 20px;
         margin-left: 20px;
         box-shadow: 0 1px 1px 0 rgba(10, 10, 10, 0.11), 0 5px 5px 0 rgba(0, 0, 0, 0.137);
+        font-family: 'Varela Round';
       }
       .col1 .col2 {
         float :left;
         width: 10%;
       }
-
       .col1 {
         padding : 40px;
         height: 500px;
       }
       li {
         list-style-type: none;
+      }
+
+      ul li {
+        padding-top: 10px;
+        padding-bottom: 10px;
       }
     </style>
   </head>
@@ -76,16 +96,18 @@
         <li>Usager 2</li>
       </ul>
     </div>
-    
 
+    <div class = "text-box">
+      <ul id="messages">
+      </ul>
+    </div>
+
+    
     <div class = "text-box col2">
       <ul id="messages" class = "test"></ul>
     </div>
-
-
-
     <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+      <input id="m" autocomplete="off" /><button class="material-icons md-36">send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
