@@ -2,17 +2,34 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font: 13px Helvetica, Arial; background-color: #F8F8F8; }
-form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-#messages { list-style-type: none; margin: 0; padding: 0; }
-#messages li { padding: 5px 10px; }
-#messages li:nth-child(odd) { background: #eee; }
-header { text-align: left; padding: 5px; background-color:black; color:white;}
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; background-color: #F8F8F8; }
+      form 
+      { background: #E8E8E8; 
+        padding: 3px; 
+        position: fixed; 
+        bottom: 0; 
+        width: 60%;
+        border-radius: 4px;
+        margin-left: 300px;
+        margin-right: 120px;}
+      form input 
+      { border: 0; 
+        padding: 10px; 
+        width: 90%;
+        margin: 0px 0px 9px 7px;}
+      .material-icons.md-36 { font-size: 36px; }
+      form button { width: 9%; background-color: transparent; border: 0; padding-top: 5px;}
+      form button:hover { cursor: pointer; 
+        box-shadow: 0 9px 9px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);}
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      header { text-align: left; padding: 5px; background-color:black; color:white;}
+
     </style>
   </head>
   <body>
@@ -20,13 +37,15 @@ header { text-align: left; padding: 5px; background-color:black; color:white;}
       <h3>Chat</h3>
     </header>
 
-    <div class = "text-box"></div>
+    <div class = "text-box">
+      <ul id="messages">
 
-    <ul id="messages"></ul>
+      </ul>
+    </div>
 
 
     <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+      <input id="m" autocomplete="off" /><button class="material-icons md-36">send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
